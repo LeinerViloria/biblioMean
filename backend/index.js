@@ -7,11 +7,19 @@ import db from './db/db.js';
 //Trae las variables de entorno
 import dotenv from 'dotenv';
 
+//Traigo la ruta
+import author from './routes/author.js';
+import role from './routes/role.js';
+import user from './routes/user.js';
+
 dotenv.config();
 
 const APP = express();
 APP.use(express.json());
 APP.use(cors());
+APP.use("/api/author", author);
+APP.use("/api/role", role);
+APP.use("/api/user", user);
 
 APP.listen(process.env.PORT, () => {
     console.log("Backend server on the port", process.env.PORT);

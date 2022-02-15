@@ -1,10 +1,10 @@
 //Se trae al administrador de mongoDb
 import mongoose from 'mongoose';
 
-const dbConnection = () =>{
+const dbConnection = async () =>{
     try {
         //Se intenta conectar con la db
-        mongoose.connect(process.env.DB_CONNECTION,{
+        await mongoose.connect(process.env.DB_CONNECTION,{
             useNewUrlParser: true,
             useUnifiedTopology:true,
         });
