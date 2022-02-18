@@ -1,11 +1,9 @@
 import authorModel from '../models/author.js';
 
 const authorRegister = async (req, res) =>{
-    if(!req.body.name & !req.body.nacionality) return res.status(400).send({message:"Incomplete data"});
 
     let schema = new authorModel({
-        name:req.body.name,
-        nacionality:req.body.nacionality
+        name:req.body.name
     });
 
     let result = await schema.save();
@@ -15,4 +13,12 @@ const authorRegister = async (req, res) =>{
     res.status(200).send({message:result});
 }
 
-export default {authorRegister};
+const authorsList = async (req, res) =>{
+    const authors = await authorModel.find({name:new RegExp(req.params["name"])});
+
+    if(!authors) return res.status(400).send({msg:"No data found"});
+
+    res.status(200).json(authors);
+}
+
+export default {authorRegister, authorsList};

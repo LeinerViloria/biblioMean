@@ -1,27 +1,15 @@
 import user from '../models/user.js';
-import role from '../models/role.js';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import moment from 'moment';
 
 const registerUser = async (req, res) =>{
-    if(!req.body.name || !req.body.email || !req.body.password || !req.body.age) return res.status(400).send({message:"Incomplete data"});
-
-    const existingUser = await user.findOne({email:req.body.email});
-
-    if(existingUser) return res.status(400).send({message:"This user is already registered"});
-
-    const userRole = await role.findOne({name:"user"});
-
-    if(!userRole) return res.status(500).send({message:"No role asigned"});
-
-    const passHash = await bcrypt.hash(req.body.password, 10);
+    if(!req.body.name || !req.body.age) return res.status(400).send({message:"Incomplete data"});
 
     const schema = new user({
-        name:req.body.name,
+        name:req.body.name.toLowerCase(),
         email:req.body.email,
-        password:passHash,
-        roleId:userRole._id,
+        password:req.body.password,
+        roleId:req.body.roleId,
         dbStatus:true,
         age:req.body.age
     });
@@ -45,4 +33,15 @@ const registerUser = async (req, res) =>{
     }
 }
 
-export default {registerUser};
+const usersList = async (req, res) => {
+    //find(->Expresion regular)
+    /**
+     * Expresion regular es un codigo predefinido y listo para usar
+     * (va a aceptar lo que se ponga aqui)
+     */
+    let users = await user.find({name:new RegExp(req.params["name"])}).populate("roleId").exec(); //que se traiga la lista de todos - users es un array
+
+    return users.length===0 ? res.status(400).send({ message: "No search results" }) : res.status(200).send({ users });
+} 
+
+export default {registerUser, usersList};

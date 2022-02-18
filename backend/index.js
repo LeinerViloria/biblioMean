@@ -11,6 +11,8 @@ import dotenv from 'dotenv';
 import author from './routes/author.js';
 import role from './routes/role.js';
 import user from './routes/user.js';
+import cat from './routes/category.js';
+import book from './routes/book.js';
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ APP.use(cors());
 APP.use("/api/author", author);
 APP.use("/api/role", role);
 APP.use("/api/user", user);
+APP.use("/api/category", cat);
+APP.use("/api/book", book);
 
 APP.listen(process.env.PORT, () => {
     console.log("Backend server on the port", process.env.PORT);

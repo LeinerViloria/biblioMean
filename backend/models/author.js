@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
 
 const authorSchema = mongoose.Schema({
-    name:String,
-    nacionality:String,
+    name:String
 });
 
 const author = mongoose.model("authors", authorSchema);
