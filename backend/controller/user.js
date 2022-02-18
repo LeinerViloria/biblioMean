@@ -1,6 +1,7 @@
 import user from '../models/user.js';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
+import bcrypt from 'bcrypt';
 
 const registerUser = async (req, res) =>{
     if(!req.body.name || !req.body.age) return res.status(400).send({message:"Incomplete data"});
@@ -44,4 +45,31 @@ const usersList = async (req, res) => {
     return users.length===0 ? res.status(400).send({ message: "No search results" }) : res.status(200).send({ users });
 } 
 
-export default {registerUser, usersList};
+const login = async (req, res) => {
+    if(!req.body.email || !req.body.password) return res.status(400).send({message:"Incomplete data"});
+    const internalMessage = "The email or password are wrong";
+
+    const existingUser = await user.findOne({email:req.body.email});
+
+    if(!existingUser) return res.status(400).send({msg:internalMessage});
+
+    const passwordVerification = await bcrypt.compare(req.body.password, existingUser.password);
+
+    if(!passwordVerification) return res.status(400).send({msg:internalMessage});
+
+    try {
+        return res.status(200).json({
+            "token":jwt.sign({
+                id:existingUser._id,
+                name:existingUser.name,
+                existingUser:existingUser.roleId,
+                age:existingUser.age,
+                iat:moment().unix()
+            }, process.env.SK_JWT)
+        });
+    } catch (error) {
+        return res.status(500).send({msg:"Internal error"});
+    }
+}
+
+export default {registerUser, usersList, login};

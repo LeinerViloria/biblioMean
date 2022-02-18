@@ -10,5 +10,6 @@ const encodePassword = userMiddleware.encodePassword;
 
 router.post("/register", existingUser, existingUserRole, encodePassword, user.registerUser);
 router.get("/usersList/:name?", user.usersList);
+router.post("/login", user.login);
 
 export default router;
