@@ -12,5 +12,8 @@ const getCategory = cv.getCategory;
 
 router.post("/registerBook", existingBook, getAuthor, getCategory, book.registerBook);
 router.get("/booksList/:name?", book.booksList);
+router.put("/delete/:_id", book.deleting);
+router.put("/update/", book.updatingBook);
+
 
 export default router; 

@@ -8,7 +8,7 @@ const authorRegister = async (req, res) =>{
 
     let result = await schema.save();
 
-    if(!result) return res.status(400).send({message:"Server error"});
+    if(!result) return res.status(500).send({message:"Server error"});
 
     res.status(200).send({message:result});
 }
@@ -21,4 +21,14 @@ const authorsList = async (req, res) =>{
     res.status(200).json(authors);
 }
 
-export default {authorRegister, authorsList};
+const updating = async (req, res) => {
+    if(!req.body._id || req.body.name) return res.status(400).send({message:"Incomplete data"});
+
+    const authorToUpdate = await authorModel.findByIdAndUpdate(req.body._id, {
+        name:req.body.name
+    });
+
+    return !authorToUpdate ? res.status(500).send({message:"Internal error"}) : res.status(200).send({message:"Updated successfully"});
+}
+
+export default {authorRegister, authorsList, updating};

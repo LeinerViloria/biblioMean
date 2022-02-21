@@ -40,10 +40,17 @@ const usersList = async (req, res) => {
      * Expresion regular es un codigo predefinido y listo para usar
      * (va a aceptar lo que se ponga aqui)
      */
-    let users = await user.find({name:new RegExp(req.params["name"])}).populate("roleId").exec(); //que se traiga la lista de todos - users es un array
+    // let users = await user.find({name:new RegExp(req.params["name"])}).populate("roleId").exec(); //que se traiga la lista de todos - users es un array
+    let users = await user.find({$and:[{name:new RegExp(req.params["name"])}, {dbStatus:"true"}]}).populate("roleId").exec();
 
     return users.length===0 ? res.status(400).send({ message: "No search results" }) : res.status(200).send({ users });
-} 
+}
+
+const usersListByAdmin = async (req, res) =>{
+    let users = await user.find({name:new RegExp(req.params["name"])}).populate("roleId").exec();
+
+    return users.length===0 ? res.status(400).send({ message: "No search results" }) : res.status(200).send({ users });
+}
 
 const login = async (req, res) => {
     if(!req.body.email || !req.body.password) return res.status(400).send({message:"Incomplete data"});
@@ -72,4 +79,35 @@ const login = async (req, res) => {
     }
 }
 
-export default {registerUser, usersList, login};
+const deletingUser = async (req, res) => {
+    if(!req.params["_id"]) return res.status(400).send({msg:"Incomplete data"});
+
+    const users = await user.findByIdAndUpdate(req.params["_id"],{
+        dbStatus:false
+    });
+
+    return !users ? res.status(400).send({msg:"Error to delete"}) : res.status(200).send({msg:"Deleted successfully"});
+}
+
+const updatingUser = async (req, res) => {
+    if(!req.body._id || !req.body.email || !req.body.name || !req.body.age) return res.status(400).send({msg:"Incomplete data"});
+
+    let pass = "";
+
+    if(!req.body.password){
+        const userDb = await user.findOne({email:req.body.email});
+        pass = userDb.password;
+    }else{
+        pass = await bcrypt.hash(req.body.password, 10);
+    }
+
+    const updating = await user.findByIdAndUpdate(req.body._id, {
+        name:req.body.name,
+        age:req.body.age,
+        password:pass
+    });
+
+    return !updating ? res.status(400).send({msg:"Error to update"}) : res.status(200).send({msg:"Updated successfully"});
+}
+
+export default {registerUser, usersList, login, usersListByAdmin, deletingUser, updatingUser};

@@ -6,6 +6,7 @@ const bookSchema = mongoose.Schema({
     categoryId:{type:mongoose.Schema.ObjectId, ref:"categories"},
     pages:Number,
     description:String,
+    dbStatus:String,
     registerDate:{type:Date, default:Date.now}
 }); 
 

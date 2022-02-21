@@ -7,5 +7,6 @@ const existingAuthor = authorMiddleware.existingAuthor;
 
 router.post("/authorRegister", existingAuthor, authorController.authorRegister);
 router.get("/authorsList/:name?", authorController.authorsList);
+router.put("/update/", authorController.updating);
 
 export default router;
