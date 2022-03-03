@@ -9,7 +9,9 @@ const existingUserRole = roleMiddleware.existingUserRole;
 const encodePassword = userMiddleware.encodePassword;
 
 router.post("/register", existingUser, existingUserRole, encodePassword, user.registerUser);
+//Admin
 router.get("/usersList/:name?", user.usersList);
+//Admin
 router.get("/usersAdminList/:name?", user.usersListByAdmin);
 router.post("/login", user.login);
 router.put("/delete/:_id", user.deletingUser);
