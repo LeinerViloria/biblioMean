@@ -1,12 +1,12 @@
 <mat-toolbar color="primary">
   <ul>
-    <a *ngIf="_userService.loggedIn()" routerLink="bookList">Book List</a>
+    <a *ngIf="_userService.loggedIn()" routerLink="booksList">Book List</a>
   </ul>
   <ul>
     <a *ngIf="_userService.loggedIn()" routerLink="authorsList">Authors List</a>
   </ul>
   <ul>
-    <a *ngIf="_userService.loggedIn()" routerLink="usersList">Admin</a>
+    <a *ngIf="_userService.loggedIn() && userRole=='admin'" routerLink="usersList">Admin</a>
   </ul>
   <span class="headerSpacer"></span>
   <ul>

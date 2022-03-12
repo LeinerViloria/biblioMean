@@ -1,1 +1,40 @@
-<p>list-book works!</p>
+<div class="container cards">
+  <div class="card" *ngFor="let book of booksData">
+    <mat-card class="example-card">
+      <mat-card-title>{{ book.name }}</mat-card-title>
+      <mat-card-subtitle>
+        Autor: {{ book.authorID.name }} <br />
+        Pages: #{{ book.pages }}
+        <p *ngIf="userRole == 'admin'">
+          Estado: <strong>{{ book.dbStatus }}</strong>
+        </p>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <p>{{ book.description }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          *ngIf="userRole == 'admin' && book.dbStatus == 'no available'"
+          class="actionButton"
+          mat-button
+        >
+          Make available
+        </button>
+        <button
+          *ngIf="userRole == 'admin' && book.dbStatus == 'available'"
+          class="actionButton"
+          mat-button
+        >
+          Disable
+        </button>
+        <button
+            mat-icon-button
+            class="example-icon favorite-icon"
+            aria-label="Delete this task"
+          >
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

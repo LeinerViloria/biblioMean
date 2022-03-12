@@ -1,0 +1,23 @@
+.cards{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.card{
+    min-width: 300px;
+    max-width: 600px;
+    width: 100%;
+    border: none;
+    padding: 10px 10px;
+}
+
+.example-card{
+    background-color: #0059ff1f;
+}
+
+.actionButton{
+    background-color: #6d2b2b;
+    color: #ffffff;
+}

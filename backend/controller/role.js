@@ -13,4 +13,12 @@ const registerRole = async (req, res) => {
     res.status(200).send({message:result});
 }
 
-export default {registerRole};
+const userRole = async (req, res) => {
+    const roleInfo = await role.findById(req.user.existingUser);
+  
+    return !roleInfo
+      ? res.status(500).send({ msg: "Role not found" })
+      : res.status(200).send({name: roleInfo.name});
+  };
+
+export default {registerRole, userRole};

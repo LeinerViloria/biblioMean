@@ -12,7 +12,7 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
 import { AuthGuard } from './guard/auth.guard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HttpInterceptor, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -22,6 +22,10 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ListBookComponent } from './book/list-book/list-book.component';
+import {MatIconModule} from '@angular/material/icon';
+import { SaveAuthorComponent } from './author/save-author/save-author.component';
+import { ListAuthorComponent } from './author/list-author/list-author.component';
+import { SaveBookComponent } from './book/save-book/save-book.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,10 @@ import { ListBookComponent } from './book/list-book/list-book.component';
     FooterComponent,
     LoginComponent,
     RegisterComponent,
-    ListBookComponent
+    ListBookComponent,
+    SaveAuthorComponent,
+    ListAuthorComponent,
+    SaveBookComponent
   ],
   imports: [
     BrowserModule,
@@ -44,11 +51,16 @@ import { ListBookComponent } from './book/list-book/list-book.component';
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatIconModule
   ],
   providers: [
     UserService,
-    TokenInterceptorService,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:TokenInterceptorService,
+      multi:true
+    },
     AuthGuard
   ],
   bootstrap: [AppComponent]
