@@ -1,1 +1,12 @@
 <p>list-author works!</p>
+<div *ngIf="userRole == 'admin'" class="btnMas">
+    <a routerLink="/saveAuthor">
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Delete this task"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
+    </a>
+  </div>

@@ -28,13 +28,26 @@
           Disable
         </button>
         <button
-            mat-icon-button
-            class="example-icon favorite-icon"
-            aria-label="Delete this task"
-          >
-            <mat-icon>delete_forever</mat-icon>
-          </button>
+          mat-icon-button
+          class="example-icon favorite-icon"
+          aria-label="Delete this task"
+        >
+          <mat-icon>delete_forever</mat-icon>
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>
+</div>
+
+<div *ngIf="userRole == 'admin'" class="btnMas">
+  <a routerLink="/saveBook">
+    <button
+      mat-icon-button
+      type="button"
+      class="example-icon favorite-icon"
+      aria-label="Delete this task"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </a>
 </div>

@@ -1,1 +1,24 @@
-<p>save-author works!</p>
+<div class="form">
+  <mat-card class="card">
+    <mat-card-title>Guardar autor</mat-card-title>
+    <mat-card-content>
+      <div class="container">
+        <mat-form-field>
+          <input
+            [(ngModel)]="registerData.name"
+            matInput
+            type="text"
+            autofocus
+            placeholder="Ingresa el nombre y apellido"
+            required
+          />
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="saveAuthor()" class="button" mat-raised-button>
+        Guardar
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

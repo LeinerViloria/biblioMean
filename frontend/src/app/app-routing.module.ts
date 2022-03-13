@@ -5,6 +5,8 @@ import { LoginComponent } from './home/login/login.component';
 import { RegisterComponent } from './home/register/register.component';
 import { AuthGuard } from './guard/auth.guard';
 import { ListAuthorComponent } from './author/list-author/list-author.component';
+import { SaveAuthorComponent } from './author/save-author/save-author.component';
+import { SaveBookComponent } from './book/save-book/save-book.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,16 @@ const routes: Routes = [
   {
     path:'authorsList',
     component:ListAuthorComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'saveAuthor',
+    component:SaveAuthorComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'saveBook',
+    component:SaveBookComponent,
     canActivate:[AuthGuard]
   }
 ];
